@@ -54,16 +54,20 @@ with cols[0]:
         # 第四部分：Radios（第三行）
         radio_row3 = st.columns(3)
         with radio_row3[0]:
-            peer_influence_option = st.radio("Peer Influence", ["Low", "Medium", "High"])
+            peer_influence_option = st.radio("Peer Influence", ["Negative", "Neutral", "Positive"])
         with radio_row3[1]:
             learning_disabilities_option = st.radio("Learning Disabilities", ["Yes", "No"])
         with radio_row3[2]:
             distance_from_home_option = st.radio("Distance from Home", ["Low", "Medium", "High"])
 
-        submitted = st.form_submit_button("🔍 Predict")
+        # 在表单最后添加一行，用于放置提交按钮在右侧
+        button_cols = st.columns([7, 3])
+        with button_cols[1]:
+            submitted = st.form_submit_button("🔍 Predict")
 
 # 当表单提交后，处理预测逻辑
 if submitted:
+    peer_mapping = {"Negative": 1, "Neutral": 2, "Positive": 3}
     level_mapping = {"Low": 1, "Medium": 2, "High": 3}
     boolean_mapping = {"No": 0, "Yes": 1}
 
@@ -77,7 +81,7 @@ if submitted:
         "Motivation_Level": [level_mapping[motivation_level_option]],
         "Internet_Access": [boolean_mapping[internet_access_option]],
         "Teacher_Quality": [level_mapping[teacher_quality_option]],
-        "Peer_Influence": [level_mapping[peer_influence_option]],
+        "Peer_Influence": [peer_mapping[peer_influence_option]],
         "Learning_Disabilities": [boolean_mapping[learning_disabilities_option]],
         "Distance_from_Home": [level_mapping[distance_from_home_option]],
         "Physical_Activity": [physical_activity],
