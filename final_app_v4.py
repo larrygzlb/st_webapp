@@ -18,7 +18,7 @@ st.title("📈 Student Performance Prediction")
 st.write("Enter the values for the following variables:")
 
 # 创建左右两列布局：左侧放表单，右侧放趋势图
-cols = st.columns([3, 2])
+cols = st.columns([2, 3])
 
 with cols[0]:
     with st.form("input_form"):
@@ -36,16 +36,16 @@ with cols[0]:
         # 第二部分：Radios（第一行）
         radio_row1 = st.columns(3)
         with radio_row1[0]:
-            parental_involvement_option = st.radio("Parental Involvement", ["Low", "Medium", "High"])
+            internet_access_option = st.radio("Internet Access", ["Yes", "No"])
         with radio_row1[1]:
             extracurricular_activities_option = st.radio("Extracurricular Activities", ["Yes", "No"])
         with radio_row1[2]:
-            motivation_level_option = st.radio("Motivation Level", ["Low", "Medium", "High"])
+            learning_disabilities_option = st.radio("Learning Disabilities", ["Yes", "No"])
 
         # 第三部分：Radios（第二行）
         radio_row2 = st.columns(3)
         with radio_row2[0]:
-            internet_access_option = st.radio("Internet Access", ["Yes", "No"])
+            peer_influence_option = st.radio("Peer Influence", ["Negative", "Neutral", "Positive"])
         with radio_row2[1]:
             teacher_quality_option = st.radio("Teacher Quality", ["Low", "Medium", "High"])
         with radio_row2[2]:
@@ -54,16 +54,23 @@ with cols[0]:
         # 第四部分：Radios（第三行）
         radio_row3 = st.columns(3)
         with radio_row3[0]:
-            peer_influence_option = st.radio("Peer Influence", ["Negative", "Neutral", "Positive"])
+            parental_involvement_option = st.radio("Parental Involvement", ["Low", "Medium", "High"])
         with radio_row3[1]:
-            learning_disabilities_option = st.radio("Learning Disabilities", ["Yes", "No"])
+            motivation_level_option = st.radio("Motivation Level", ["Low", "Medium", "High"])
         with radio_row3[2]:
             distance_from_home_option = st.radio("Distance from Home", ["Low", "Medium", "High"])
 
         # 在表单最后添加一行，用于放置提交按钮在右侧
+        # radio_row4 = st.columns(3)
         button_cols = st.columns([7, 3])
         with button_cols[1]:
             submitted = st.form_submit_button("🔍 Predict")
+        # with button_cols[1]:
+        # with radio_row4[1]:
+        #     reset_button = st.button("Reset Prediction History")
+        # with radio_row4[2]:
+        #     submitted = st.form_submit_button("🔍 Predict")
+
 
 # 当表单提交后，处理预测逻辑
 if submitted:
@@ -96,14 +103,17 @@ if submitted:
     st.success(f"🎯 Predicted Exam Score: {prediction[0]:.2f}")
 
 with cols[1]:
+    chart_placeholder = st.empty()
+
+# 在占位符内绘制趋势图
+with chart_placeholder.container():
+    st.subheader("📊 Trend")
     chart_data = pd.DataFrame(
         {
             "Prediction": st.session_state.input_index,
             "Predicted Score": st.session_state.prediction_history,
         }
     )
-
-    # 使用Altair创建图表，并通过axis参数设置x轴格式为整数
     chart = (
         alt.Chart(chart_data)
         .mark_line(point=True)
@@ -112,5 +122,33 @@ with cols[1]:
             y=alt.Y("Predicted Score", title="Predicted Score"),
         )
     )
-    st.subheader("📊 Trend")
     st.altair_chart(chart, use_container_width=True)
+    reset_button = st.button("Reset Prediction History")
+
+# 重置按钮
+
+
+if reset_button:
+    st.session_state.prediction_history = []
+    st.session_state.input_index = []
+    st.info("Prediction history reset.")
+    # 更新同一个占位符，清空趋势图（或显示新的空数据图表）
+    chart_placeholder.empty()
+    with chart_placeholder.container():
+        st.subheader("📊 Trend")
+        chart_data = pd.DataFrame(
+            {
+                "Prediction": st.session_state.input_index,
+                "Predicted Score": st.session_state.prediction_history,
+            }
+        )
+        chart = (
+            alt.Chart(chart_data)
+            .mark_line(point=True)
+            .encode(
+                x=alt.X("Prediction:Q", axis=alt.Axis(format="d", title="Prediction #")),
+                y=alt.Y("Predicted Score", title="Predicted Score"),
+            )
+        )
+        st.altair_chart(chart, use_container_width=True)
+        # reset_button = st.button("Reset Prediction History")
