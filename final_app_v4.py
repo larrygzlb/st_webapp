@@ -1,7 +1,10 @@
 import streamlit as st
 import joblib
 import pandas as pd
+import altair as alt
 
+
+st.set_page_config(layout="wide")
 # 加载模型和scaler
 loaded_model = joblib.load("linear_regression_model.pkl")
 scaler = joblib.load("scaler.pkl")
@@ -15,7 +18,7 @@ st.title("📈 Student Performance Prediction")
 st.write("Enter the values for the following variables:")
 
 # 创建左右两列布局：左侧放表单，右侧放趋势图
-cols = st.columns([2, 1])
+cols = st.columns([3, 2])
 
 with cols[0]:
     with st.form("input_form"):
@@ -57,7 +60,6 @@ with cols[0]:
         with radio_row3[2]:
             distance_from_home_option = st.radio("Distance from Home", ["Low", "Medium", "High"])
 
-        # 表单内的提交按钮
         submitted = st.form_submit_button("🔍 Predict")
 
 # 当表单提交后，处理预测逻辑
@@ -90,12 +92,21 @@ if submitted:
     st.success(f"🎯 Predicted Exam Score: {prediction[0]:.2f}")
 
 with cols[1]:
+    chart_data = pd.DataFrame(
+        {
+            "Prediction": st.session_state.input_index,
+            "Predicted Score": st.session_state.prediction_history,
+        }
+    )
+
+    # 使用Altair创建图表，并通过axis参数设置x轴格式为整数
+    chart = (
+        alt.Chart(chart_data)
+        .mark_line(point=True)
+        .encode(
+            x=alt.X("Prediction:Q", axis=alt.Axis(format="d", title="Prediction #")),
+            y=alt.Y("Predicted Score", title="Predicted Score"),
+        )
+    )
     st.subheader("📊 Trend")
-    if st.session_state.prediction_history:
-        chart_data = pd.DataFrame(
-            {
-                "Prediction #": st.session_state.input_index,
-                "Predicted Score": st.session_state.prediction_history,
-            }
-        ).set_index("Prediction #")
-        st.line_chart(chart_data)
+    st.altair_chart(chart, use_container_width=True)
