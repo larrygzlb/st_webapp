@@ -27,7 +27,7 @@ with cols[0]:
     
         # 先写第一个bubble
         # 原来的文字改成 Markdown + HTML，使用 h3
-        st.image("/Users/amyouou/AI/data visualization/team work/ai model/st_webapp/checklist.png", width=50)
+        st.image("checklist.png", width=50)
         st.markdown(
     "<div style='font-size:22px; font-weight:bold; color:#006400;'> Controllable Factors:</div>",
     unsafe_allow_html=True
@@ -60,7 +60,7 @@ with cols[0]:
         st.markdown("</div>", unsafe_allow_html=True)  # Close Internal Factors box
 
         # 第二个bubble
-        st.image("/Users/amyouou/AI/data visualization/team work/ai model/st_webapp/social-media.png", width=50)
+        st.image("social-media.png", width=50)
         st.markdown(
     "<div style='font-size:22px; font-weight:bold; color:#003366;'> Uncontrollable Factors:</div>",
     unsafe_allow_html=True
