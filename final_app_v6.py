@@ -48,13 +48,16 @@ with cols[0]:
 
         
         #第三行：2个选择框
-        radio_row1= st.columns(2)
+        radio_row1= st.columns(3)
         with radio_row1[0]:
             # st.write("**Motivation Level**")
             motivation_level_option = st.radio("**Motivation Level**", ["Low", "Medium", "High"])
         with radio_row1[1]:
             # st.write("**Access to Resources**")
             access_to_resources_option = st.radio("**Access to Resources**", ["Low", "Medium", "High"], key="3")
+        with radio_row1[2]:
+            st.write("**Peer Influence**")
+            peer_influence_option = st.radio("", ["Negative", "Neutral", "Positive"])
        
 
         st.markdown("</div>", unsafe_allow_html=True)  # Close Internal Factors box
@@ -78,16 +81,16 @@ with cols[0]:
         st.markdown("<div style='font-size:18px; color:#3399FF;'>🏫 School Factors</span>", unsafe_allow_html=True)
         
         # 第一行：3个选项框）
-        radio_row2 = st.columns(3)
+        radio_row2 = st.columns(2)
         with radio_row2[0]:
             st.write("**School type**")
             peer_influence_option = st.radio("", ["Public", "Private"])
         with radio_row2[1]:
             st.write("**Teacher Quality**")
             teacher_quality_option = st.radio("", ["Low", "Medium", "High"], key="2")
-        with radio_row2[2]:
-            st.write("**Peer Influence**")
-            peer_influence_option = st.radio("", ["Negative", "Neutral", "Positive"])
+        # with radio_row2[2]:
+        #     st.write("**Peer Influence**")
+        #     peer_influence_option = st.radio("", ["Negative", "Neutral", "Positive"])
 
         # 第二行：1个滑块
         slider_cols = st.columns(1)
