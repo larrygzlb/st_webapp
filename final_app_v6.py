@@ -58,7 +58,7 @@ with cols[0]:
         with radio_row1[2]:
             # st.write("**Peer Influence**")
             # peer_influence_option = st.radio("", ["Negative", "Neutral", "Positive"])
-            peer_influence_option = st.radio("**Peer Influence**", ["Low", "Medium", "High"], key="8")
+            peer_influence_option = st.radio("**Peer Influence**", ["Negative", "Neutral", "Positive"], key="8")
        
 
         st.markdown("</div>", unsafe_allow_html=True)  # Close Internal Factors box
@@ -81,11 +81,11 @@ with cols[0]:
         # 第二个小节：school factors
         st.markdown("<div style='font-size:18px; color:#3399FF;'>🏫 School Factors</span>", unsafe_allow_html=True)
         
-        # 第一行：3个选项框）
-        radio_row2 = st.columns(2)
+        # 第一行：3个选项框s）
+        radio_row2 = st.columns(3)
         with radio_row2[0]:
             st.write("**School type**")
-            peer_influence_option = st.radio("", ["Public", "Private"])
+            school_type_option = st.radio("", ["Public", "Private"])
         with radio_row2[1]:
             st.write("**Teacher Quality**")
             teacher_quality_option = st.radio("", ["Low", "Medium", "High"], key="2")
@@ -147,6 +147,7 @@ if submitted:
     boolean_mapping = {"No": 0, "Yes": 1}
     distance_mapping = {"Near": 1, "Moderate": 2, "Far": 3} 
     education_mapping = {"High school": 1, "College": 2, "Postgraduate": 3}
+    school_mapping = {"Public": 1, "Private": 2}
 
     input_data = {
         "Hours_Studied": [hours_studied],
@@ -168,7 +169,7 @@ if submitted:
 
         "Teacher_Quality": [level_mapping[teacher_quality_option]],
         # school type
-        "School_Type": [peer_mapping[peer_influence_option]],
+        "School_Type": [school_mapping[school_type_option]],
 
         "Peer_Influence": [peer_mapping[peer_influence_option]],
         # pyhsical activity
