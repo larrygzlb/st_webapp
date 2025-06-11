@@ -56,8 +56,9 @@ with cols[0]:
             # st.write("**Access to Resources**")
             access_to_resources_option = st.radio("**Access to Resources**", ["Low", "Medium", "High"], key="3")
         with radio_row1[2]:
-            st.write("**Peer Influence**")
-            peer_influence_option = st.radio("", ["Negative", "Neutral", "Positive"])
+            # st.write("**Peer Influence**")
+            # peer_influence_option = st.radio("", ["Negative", "Neutral", "Positive"])
+            peer_influence_option = st.radio("**Peer Influence**", ["Low", "Medium", "High"], key="8")
        
 
         st.markdown("</div>", unsafe_allow_html=True)  # Close Internal Factors box
